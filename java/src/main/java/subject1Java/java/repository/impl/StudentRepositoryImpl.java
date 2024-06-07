@@ -92,7 +92,7 @@ public class StudentRepositoryImpl implements StudentRepository{
         Student s = new Student();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection con = connectionPool.getConnection();
-        if(student != null){
+        if(student.getAge() > 0 && student.getAge() < 200 && student.getFirstname() != null && !student.getFirstname().equals("") && student.getLastname() != null && !student.getLastname().equals("")){
             try {
                 PreparedStatement pt = con.prepareStatement(SQL_QUERY_ADD_STUDENT);
                 pt.setString(1, student.getFirstname());
@@ -111,6 +111,8 @@ public class StudentRepositoryImpl implements StudentRepository{
                 throw new RuntimeException("Error when adding student", e);
             }
         }
-        return "Insert finished";
+        else {
+            return "Insert failed, check input data again!";
+        }
     }
 }
