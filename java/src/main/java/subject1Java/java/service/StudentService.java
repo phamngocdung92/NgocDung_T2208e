@@ -9,4 +9,5 @@ public interface StudentService {
     List<StudentDto> findAll();
     StudentDto getByFirstName(String firstName);
     StudentDto getByLastName(String lastName);
+    String add(StudentDto studentDto);
 }

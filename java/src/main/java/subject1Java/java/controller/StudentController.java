@@ -1,12 +1,9 @@
 package subject1Java.java.controller;
 
+import org.springframework.web.bind.annotation.*;
 import subject1Java.java.dto.StudentDto;
 import subject1Java.java.service.StudentService;
 import subject1Java.java.service.impl.StudentServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -29,5 +26,9 @@ public class StudentController {
     @GetMapping(value = "/students/lastname/{lastName}")
     public StudentDto getByLastName(@PathVariable String lastName) {
         return studentService.getByLastName(lastName);
+    }
+    @PostMapping(value = "/addStudent")
+    public String add(@RequestBody StudentDto studentDto) {
+        return studentService.add(studentDto);
     }
 }

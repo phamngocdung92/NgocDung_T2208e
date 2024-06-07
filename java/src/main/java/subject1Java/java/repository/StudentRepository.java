@@ -10,4 +10,5 @@ public interface StudentRepository {
     List<Student> getAll();
     Optional<List<Student>> getByFirstName(String firstName);
     Optional<List<Student>> getByLastName(String lastName);
+    String add(Student student);
 }

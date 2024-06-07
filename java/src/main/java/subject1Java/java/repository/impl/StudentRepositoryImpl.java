@@ -13,6 +13,7 @@ public class StudentRepositoryImpl implements StudentRepository{
     private static final String SQL_QUERY_STUDENT_BY_ID = "SELECT * FROM student WHERE id = ?";
     private static final String SQL_QUERY_STUDENT_BY_FIRSTNAME = "SELECT * FROM student WHERE first_name like ?";
     private static final String SQL_QUERY_STUDENT_BY_LASTNAME = "SELECT * FROM student WHERE Last_name like ?";
+    private static final String SQL_QUERY_ADD_STUDENT = "INSERT INTO student (First_name, Last_name, address, age) VALUES (?, ?, ?, ?)";
     @Override
     public Optional<List<Student>> getById(String id){
         List<Student> students = new ArrayList<>();
@@ -85,5 +86,31 @@ public class StudentRepositoryImpl implements StudentRepository{
             throw new RuntimeException("Error when querying student by last name", e);
         }
         return Optional.of(students);
+    }
+    @Override
+    public String add(Student student){
+        Student s = new Student();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        Connection con = connectionPool.getConnection();
+        if(student != null){
+            try {
+                PreparedStatement pt = con.prepareStatement(SQL_QUERY_ADD_STUDENT);
+                pt.setString(1, student.getFirstname());
+                pt.setString(2, student.getLastname());
+                pt.setString(3, student.getAddress());
+                pt.setInt(4, student.getAge());
+                int result = pt.executeUpdate();
+                if(result > 0){
+                    s.setFirstname(student.getFirstname());
+                    s.setLastname(student.getLastname());
+                    s.setAddress(student.getAddress());
+                    s.setAge(student.getAge());
+                }
+                return "Student added successfully";
+            } catch (SQLException e){
+                throw new RuntimeException("Error when adding student", e);
+            }
+        }
+        return "Insert finished";
     }
 }

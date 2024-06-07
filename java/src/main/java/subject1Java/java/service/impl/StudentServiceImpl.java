@@ -68,4 +68,13 @@ public class StudentServiceImpl implements StudentService{
         }
         return null;
     }
+    @Override
+    public String add(StudentDto studentDto){
+        Student student = studentMapper.dtoToEntity(studentDto);
+        String optionalStudent = studentRepository.add(student);
+        if(optionalStudent != null){
+            return optionalStudent;
+        }
+        return null;
+    }
 }
